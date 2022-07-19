@@ -1,0 +1,38 @@
+{
+  "version": "2.0",
+  "routeKey": "GET /<path:proxy>",
+  "rawPath": "/templates/contracts",
+  "rawQueryString": "",
+  "cookies": [],
+  "headers": {
+    "Host": "localhost:5000",
+    "User-Agent": "insomnia/2021.6.0",
+    "Content-Type": "application/json",
+    "Authorization": "",
+    "Accept": "*/*",
+    "Content-Length": "16",
+    "X-Forwarded-Proto": "http",
+    "X-Forwarded-Port": "5000"
+  },
+  "queryStringParameters": {},
+  "requestContext": {
+    "accountId": "123456789012",
+    "apiId": "1234567890",
+    "http": {
+      "method": "GET",
+      "path": "/templates/contracts",
+      "protocol": "HTTP/1.1",
+      "sourceIp": "127.0.0.1",
+      "userAgent": "Custom User Agent String"
+    },
+    "requestId": "4d160553-b400-4d10-8f14-5338b8936458",
+    "routeKey": "GET /<path:proxy>",
+    "stage": null
+  },
+  "body": "{\"foo\":\"bar\"}",
+  "pathParameters": {
+    "proxy": "templates/contracts"
+  },
+  "stageVariables": null,
+  "isBase64Encoded": false
+}
