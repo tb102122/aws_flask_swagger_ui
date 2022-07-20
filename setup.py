@@ -44,17 +44,17 @@ def find_version():
 
 
 # Get the long description from the README file
-with open(path.join(here, "aws_flask_swagger_ui/README.md"), encoding="utf-8") as f:
+with open(path.join(here, "README.md"), encoding="utf-8") as f:
     long_description = f.read()
 
 setup(
     name="aws-flask-swagger-ui",
     version=find_version(),
-    description="Swagger UI blueprint for Flask on AWS Lambda",
+    description="Swagger UI Blueprint for Flask on AWS Lambda",
     long_description=long_description,
     long_description_content_type="text/markdown",
     zip_safe=False,
-    # url="https://github.com/tb102122/",
+    url="https://github.com/tb102122/aws_flask_swagger_ui",
     keywords="flask aws amazon lambda swagger",
     author="Tobias Bruckert",
     license="Apache License, Version 2.0",

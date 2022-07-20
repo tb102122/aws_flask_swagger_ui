@@ -1,5 +1,8 @@
 # aws-flask-swagger-ui
 
+![Tests Status](https://github.com/tb102122/aws_flask_swagger_ui/actions/workflows/tests.yml/badge.svg)
+![Release Status](https://github.com/tb102122/aws_flask_swagger_ui/actions/workflows/py-publish.yml/badge.svg)
+
 Simple Flask blueprint for adding [Swagger UI](https://github.com/swagger-api/swagger-ui) to your flask application.
 Including a WSGI adapter for [AWS API Gateway/Lambda Proxy Integration](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-set-up-simple-proxy.html) to allows you to use WSGI-compatible middleware and frameworks like Flask and Django with the AWS API Gateway/Lambda proxy integration for your Swagger documentation.
 
