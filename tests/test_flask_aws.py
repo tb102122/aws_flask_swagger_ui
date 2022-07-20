@@ -3,36 +3,20 @@ from io import BytesIO
 import sys
 import unittest
 from aws_flask_swagger_ui import flask_aws_lambda as fl
+from urllib.parse import urlencode
 
 
-try:
-    # Python 3
-    from urllib.parse import urlencode
-
-    # Convert bytes to str, if required
-    def convert_str(s):
-        return s.decode("utf-8") if isinstance(s, bytes) else s
-
-    # Convert str to bytes, if required
-    def convert_byte(b):
-        return b.encode("utf-8", errors="strict") if (isinstance(b, str)) else b
-
-except ImportError:
-    # Python 2
-    from urllib import urlencode
-
-    # No conversion required
-    def convert_str(s):
-        return s
-
-    # Convert str to bytes, if required
-    def convert_byte(b):
-        return (
-            b.encode("utf-8", errors="strict") if (isinstance(b, (str, unicode))) else b
-        )
+# Convert bytes to str, if required
+def convert_str(s):
+    return s.decode("utf-8") if isinstance(s, bytes) else s
 
 
-class TestAwsgi(unittest.TestCase):
+# Convert str to bytes, if required
+def convert_byte(b):
+    return b.encode("utf-8", errors="strict") if (isinstance(b, str)) else b
+
+
+class TestAWSFlask(unittest.TestCase):
     def compareStringIOContents(self, a, b, msg=None):
         if a.getvalue() != b.getvalue():
             raise self.failureException(msg)
@@ -203,17 +187,6 @@ class TestAwsgi(unittest.TestCase):
             self.assertEqual(v, expected[k])
 
     def test_response_base64_content_type(self):
-        event = {
-            "path": "/image.png",
-            "httpMethod": "GET",
-            "headers": {
-                "Accept": "image/webp,image/apng,image/*,*/*;q=0.8",
-                "X-Forwarded-For": "first, second",
-                "X-Forwarded-Port": "12345",
-                "X-Forwarded-Proto": "https",
-            },
-        }
-        context = object()
         sr = fl.StartResponse(base64_content_types={"image/png"})
         sr("200 OK", [("Content-Type", "image/png")])
         output = BytesIO(b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\xc8")
@@ -257,7 +230,7 @@ class TestAwsgi(unittest.TestCase):
                 "CloudFront-Viewer-Country": "US",
                 "Host": "wt6mne2s9k.execute-api.us-west-2.amazonaws.com",
                 "Upgrade-Insecure-Requests": "1",
-                "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.82 Safari/537.36 OPR/39.0.2256.48",
+                "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.82 Safari/537.36 OPR/39.0.2256.48",  # noqa: E501
                 "Via": "1.1 fb7cca60f0ecd82ce07790c9c5eef16c.cloudfront.net (CloudFront)",
                 "X-Amz-Cf-Id": "nBsWBOrSHMgnaROZJK1wGCZ9PcRcSpq_oSXZNQwQ10OTZL4cimZo3g==",
                 "X-Forwarded-For": "192.168.100.1, 192.168.1.1",
@@ -280,7 +253,7 @@ class TestAwsgi(unittest.TestCase):
                     "cognitoAuthenticationType": "",
                     "cognitoAuthenticationProvider": "",
                     "userArn": "",
-                    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.82 Safari/537.36 OPR/39.0.2256.48",
+                    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.82 Safari/537.36 OPR/39.0.2256.48",  # noqa: E501
                     "user": "",
                 },
                 "resourcePath": "/{proxy+}",

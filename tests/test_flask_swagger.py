@@ -1,9 +1,8 @@
 import os
 import json
 import logging
-import pytest
 from flask import Flask
-from aws_flask_swagger_ui import get_swaggerui_blueprint, get_api_gateway_documentation
+from aws_flask_swagger_ui import get_swaggerui_blueprint
 
 logger = logging.getLogger(__name__)
 

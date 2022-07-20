@@ -3,50 +3,30 @@ from io import BytesIO
 import itertools
 import collections
 import sys
-
-try:
-    # Python 3
-    from urllib.parse import urlencode, unquote
-
-    # Convert bytes to str, if required
-    def convert_str(s):
-        try:
-            return s.decode("utf-8") if isinstance(s, bytes) else s
-        except UnicodeDecodeError:
-            return s.encode("latin-1").decode("utf-8")
-
-    def clean_path_string(path):
-        """
-        Some WSGI applications expect paths to be unquoted before receiving them
-        """
-        return unquote(path)
-
-    # Convert str to bytes, if required
-    def convert_byte(b):
-        return b.encode("utf-8", errors="strict") if (isinstance(b, str)) else b
-
-except ImportError:
-    # Python 2
-    from urllib import urlencode, unquote
-
-    # No conversion required
-    def convert_str(s):
-        return s
-
-    def clean_path_string(path):
-        """
-        Some WSGI applications expect paths to be unquoted before receiving them
-        """
-        return unquote(path)
-
-    # Convert str to bytes, if required
-    def convert_byte(b):
-        return (
-            b.encode("utf-8", errors="strict") if (isinstance(b, (str, unicode))) else b
-        )
+from urllib.parse import urlencode, unquote
 
 
-__all__ = ("response",)
+# Convert bytes to str, if required
+def convert_str(s):
+    try:
+        return s.decode("utf-8") if isinstance(s, bytes) else s
+    except UnicodeDecodeError:
+        return s.encode("latin-1").decode("utf-8")
+
+
+def clean_path_string(path):
+    """
+    Some WSGI applications expect paths to be unquoted before receiving them
+    """
+    return unquote(path)
+
+
+# Convert str to bytes, if required
+def convert_byte(b):
+    return b.encode("utf-8", errors="strict") if (isinstance(b, str)) else b
+
+
+__all__ = ("response",)  # noqa: F822
 
 
 def convert_b46(s):

@@ -32,7 +32,7 @@ def get_swaggerui_blueprint(
     Returns:
         Blueprint: Flask Blueprint with Swagger UI.
     """
-    if api_url == None and config.get("spec", {}) == {} and aws_gw_config == None:
+    if api_url is None and config.get("spec", {}) == {} and aws_gw_config is None:
         raise ValueError(
             "All Swagger specifications are empty at least one needs to be provided!"
         )

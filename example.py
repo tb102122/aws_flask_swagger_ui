@@ -5,7 +5,7 @@ import json
 
 app = Flask(__name__)
 
-### sample with local Swagger definition
+# sample with local Swagger definition
 input_filename = os.path.join(
     os.path.dirname(os.path.abspath(__file__)), "tests/data/swagger.json"
 )
@@ -16,22 +16,18 @@ swaggerui_blueprint = get_swaggerui_blueprint(
     "/api-doc", config={"app_name": "JSON Test application", "spec": api_def}
 )
 
-### sample with online Swagger definition
+# sample with online Swagger definition
 swaggerui_blueprint = get_swaggerui_blueprint(
     "/api-doc",
     "http://petstore.swagger.io/v2/swagger.json",
 )
 
-### sample with online Swagger definition from API Gateway
+# sample with online Swagger definition from API Gateway
 swaggerui_blueprint = get_swaggerui_blueprint(
     "/api-doc",
     aws_gw_config={
         "exportType": "oas30",
-        "parameters": {
-            "extensions": "integrations",
-            "extensions": "apigateway",
-            "extensions": "authorizers",
-        },
+        "parameters": {"extensions": "integrations"},
     },
 )
 

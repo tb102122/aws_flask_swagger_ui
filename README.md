@@ -70,3 +70,21 @@ See [swagger-ui configuration](https://github.com/swagger-api/swagger-ui/blob/ma
 Plugins and function parameters are not supported at this time.
 
 OAuth2 parameters can be found at [swagger-ui oauth2](https://github.com/swagger-api/swagger-ui/blob/master/docs/usage/oauth2.md).
+
+## License
+
+This library is licensed under the [Apache 2.0 License](./LICENSE).
+
+## Test
+- Clone the repo and run pytest
+
+```bash
+git clone https://github.com/tb102122/aws_flask_swagger_ui.git
+python -m venv virtualenv
+virtualenv/bin/activate
+pip install --upgrade pip, setuptools, wheel
+pip install flake8 pytest boto3 pytest-cov
+pip install .
+flake8 .
+pytest
+```
