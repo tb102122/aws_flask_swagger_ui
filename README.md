@@ -48,6 +48,8 @@ In order that the above example works correctly the Lambda function must be conn
 
 Configure your API Gateway with a `{proxy+}` resource with an `ANY` method. Your "Method Response" should likely include an `application/json` "Response Body for 200" that uses the `Empty` model.
 
+Because API Gateway doesn't match the root folder with {proxy+} definition, your default URL should contain index.html. It is suggested to create a mock integration on your path `/api-doc` to return a 301. (ex: `/api-doc => 301` => `/api-doc/index.html`) Source code based on Terraform to achieve this can be found in this [article](https://itnext.io/how-to-easily-create-a-http-301-redirection-with-aws-api-gateway-2bf2874ef3f2).
+
 ### Lambda Test Event
 The Lambda function must have the permissions to export the API definition!
 
