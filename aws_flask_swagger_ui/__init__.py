@@ -1,4 +1,4 @@
-__version__ = "1.0.3"
+__version__ = "1.0.4"
 
 from .flask_swagger_ui import get_swaggerui_blueprint
 from .flask_aws_lambda import flask_ui_response
