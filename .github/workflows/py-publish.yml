@@ -15,7 +15,11 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
+    environment:
+      name: release-from-git
+      url: https://pypi.org/p/aws-flask-swagger-ui/
+    permissions:
+        id-token: write
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python
@@ -31,6 +35,3 @@ jobs:
         run: python -m build
       - name: Publish package
         uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          user: __token__
-          password: ${{ secrets.PYPI_API_TOKEN }}
