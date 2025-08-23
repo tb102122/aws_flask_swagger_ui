@@ -50,6 +50,8 @@ def get_api_gateway_documentation(
     api_def = json.loads(response["body"].read())
 
     for server in api_def["servers"]:
+        if "variables" not in server:
+            continue
         path = server["variables"]["basePath"]["default"]
         if path.startswith("/"):
             server["variables"]["basePath"]["default"] = path[1:]
