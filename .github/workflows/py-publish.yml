@@ -19,11 +19,11 @@ jobs:
       name: release-from-git
       url: https://pypi.org/p/aws-flask-swagger-ui/
     permissions:
-        id-token: write
+      id-token: write
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.x"
           cache: "pip"
