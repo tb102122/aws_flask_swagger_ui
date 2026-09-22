@@ -66,6 +66,25 @@ Then you will need to pass a query parameter in the URL like, http://mysite.com/
 
 If you don't have the environment variable then endpoint is not password protected and you can access it as per normal http://mysite.com/api-doc/
 
+### Protect documentation with HTTP Basic Auth
+For a real username/password prompt (handled by the browser, and covering the Swagger UI page as well as its static assets), pass `basic_auth_credentials` or set the `SWAGGER_BASIC_AUTH_USER` / `SWAGGER_BASIC_AUTH_PASSWORD` environment variables:
+
+```python
+swaggerui_blueprint = get_swaggerui_blueprint(
+    "/api-doc",
+    aws_gw_config={"exportType": "oas30"},
+    basic_auth_credentials=("myuser", "mypassword"),
+)
+```
+
+or, without code changes:
+
+```bash
+export SWAGGER_BASIC_AUTH_USER=myuser
+export SWAGGER_BASIC_AUTH_PASSWORD=mypassword
+```
+
+Explicit `basic_auth_credentials` takes precedence over the environment variables. If neither is set the endpoint is not protected. This is independent of the `SWAGGER_PASSWORD` query-parameter protection above and both can be combined.
 
 ## Configuration
 

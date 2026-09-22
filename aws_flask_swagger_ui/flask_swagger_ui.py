@@ -1,6 +1,16 @@
-import os
 import json
-from flask import Blueprint, send_from_directory, render_template, request, jsonify
+import os
+import secrets
+
+from flask import (
+    Blueprint,
+    Response,
+    jsonify,
+    render_template,
+    request,
+    send_from_directory,
+)
+
 from .aws_api_gateway_docu import get_api_gateway_documentation
 
 
@@ -12,6 +22,7 @@ def get_swaggerui_blueprint(
     oauth_config: dict = None,
     blueprint_name: str = "swagger_ui",
     icons: list = None,
+    basic_auth_credentials: tuple = None,
 ) -> Blueprint:
     """
     Get Flask App with Swagger UI as BluePrint and option to get Swagger definition directly from AWS Gateway.
@@ -25,6 +36,9 @@ def get_swaggerui_blueprint(
         oauth_config (dict, optional): OAuth config for details see https://github.com/swagger-api/swagger-ui#oauth2-configuration. Defaults to None.
         blueprint_name (str, optional): Name of Flask App. Defaults to "swagger_ui".
         icons (list, optional): Option to overwrite default icons in format of [{"href": "./favicon-32x32.png", "sizes": "32x32"}]. Defaults to None.
+        basic_auth_credentials (tuple, optional): (username, password) to require HTTP Basic Auth before serving
+            any Swagger UI route (page and static assets). Falls back to the SWAGGER_BASIC_AUTH_USER /
+            SWAGGER_BASIC_AUTH_PASSWORD environment variables when not provided. Defaults to None (no auth).
 
     Raises:
         ValueError: in case of missing Swagger configuration.
@@ -44,6 +58,30 @@ def get_swaggerui_blueprint(
         template_folder="templates",
         url_prefix=base_url,
     )
+
+    if basic_auth_credentials:
+        basic_auth_user, basic_auth_pass = basic_auth_credentials
+    else:
+        basic_auth_user = os.getenv("SWAGGER_BASIC_AUTH_USER")
+        basic_auth_pass = os.getenv("SWAGGER_BASIC_AUTH_PASSWORD")
+
+    if basic_auth_user and basic_auth_pass:
+
+        @swagger_ui.before_request
+        def _require_basic_auth():
+            auth = request.authorization
+            authorized = (
+                auth is not None
+                and auth.type == "basic"
+                and secrets.compare_digest(auth.username or "", basic_auth_user)
+                and secrets.compare_digest(auth.password or "", basic_auth_pass)
+            )
+            if not authorized:
+                return Response(
+                    "Authentication required",
+                    401,
+                    {"WWW-Authenticate": 'Basic realm="Swagger UI"'},
+                )
 
     default_config = {
         "app_name": "Swagger UI",
